@@ -70,6 +70,24 @@ class TestSQLGlassBoxFunction(unittest.TestCase):
             logged_query = file.read()
         self.assertIn((self.query + '\n').strip(), logged_query.strip())
 
+    def test_sql_write_to_different_log_file(self):
+        different_log_file_path = 'different_sql_log.txt'
+        os.environ['SQL_GBF_QUERY_LOG_FILE'] = different_log_file_path
+
+        # Delete the different log file if it exists
+        if os.path.exists(different_log_file_path):
+            os.remove(different_log_file_path)
+        os.environ['SQL_GBF_WRITE_TO_LOG_FILE'] = 'True'
+        sql(self.query, write_to_log_file=True)
+        # Check that the query is written to the different log file
+        with open(different_log_file_path, 'r') as file:
+            logged_query = file.read()
+        self.assertIn((self.query + '\n').strip(), logged_query.strip())
+
+        # Clean up
+        if os.path.exists(different_log_file_path):
+            os.remove(different_log_file_path)
+
     def test_append_to_file(self):
         self.sql_util.append_to_file(self.query)
         # Ensure the log file exists before appending

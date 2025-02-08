@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="SQLGlassBoxFunction",
-    version="0.1.3",
+    version="0.1.4",
     author="Gordil",
     author_email="gordil.tech@gmail.com",
     description="A package to provide glass box functions for SQL analysis",
